@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: file:src/main/resources/templates/
+
+  resources:
+    static-locations: file:src/main/resources/static/
+    cache:
+      # DEV ENVIRONMENT ONLY
+      period: 0
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lime
+    username: # username
+    password: # password
+    driver-class-name: org.postgresql.Driver
+    initialize: true
+
+  sql:
+    init:
+      schema-locations: classpath:/schema-postgresql.sql
+      mode: always
+      platform: postgres

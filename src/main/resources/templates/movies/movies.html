@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filmes</title>
+  </head>
+  <body>
+    <div th:fragment="list" class="text-white max-w-[60rem] mx-auto">
+      <hr class="border-2 border-teal-400/75 w-3/4 mx-auto my-8" />
+      <h2 class="text-teal-200 text-center text-5xl sm:text-6xl font-black uppercase mb-8">
+        Filmes
+      </h2>
+      <div class="flex justify-end my-2 hover:underline decoration-teal-200">
+        <button
+          id="new-movie__btn"
+          hx-get="/movies/new"
+          hx-target="#movies-list__wrapper"
+          class="text-sm text-slate-400"
+        >
+          Novo Filme
+        </button>
+      </div>
+
+      <div id="movie-form__wrapper" class="hidden"></div>
+
+      <div th:fragment="table" id="movies-list__wrapper">
+        <div
+          th:if="${!movies.empty}"
+          class="grid grid-cols-[1fr_auto_1fr_auto] justify-items-center font-bold uppercase"
+        >
+          <p class="px-4 py-2">Título</p>
+          <p class="px-4 py-2">Ano</p>
+          <p class="px-4 py-2">Gênero</p>
+          <p class="px-4 py-2 min-w-[5ch]">&nbsp;</p>
+        </div>
+
+        <hr class="border-teal-400/75 mx-auto my-2" />
+
+        <p
+          th:if="${movies.empty}"
+          class="text-lg text-center font-bold font-sans my-4"
+        >
+          Nenhum filme cadastrado.
+        </p>
+        <div th:each="movie:${movies}">
+          <div
+            th:id="'list-wrapper__' + ${movie.id}"
+            class="grid grid-cols-[1fr_auto_1fr_auto] justify-items-center"
+          >
+            <p th:text="${movie.title}" class="text-center px-4 py-2"></p>
+            <p
+              th:text="${movie.year != 0 ? movie.year : '----'}"
+              class="text-center px-4 py-2"
+            ></p>
+            <p
+              th:text="${movie.genre != '' ? movie.genre : '----'}"
+              class="text-center px-4 py-2"
+            ></p>
+            <p class="text-center px-4 py-2">
+              <button
+                th:hx-get="'/movies/' + ${movie.id}"
+                th:hx-target="'#details__' + ${movie.id}"
+                th:id="'details-btn__' + ${movie.id}"
+                type="button"
+                class="details-toggler min-w-4"
+              >
+                +
+              </button>
+              <button
+                th:id="'close-details-btn__' + ${movie.id}"
+                type="button"
+                class="details-toggler min-w-4 hidden"
+              >
+                ✕
+              </button>
+            </p>
+          </div>
+
+          <div th:id="'details__' + ${movie.id}" class="hidden"></div>
+          <hr class="border border-teal-400/75 mx-auto my-2" />
+        </div>
+        <script th:src="@{js/movies.js}"></script>
+      </div>
+    </div>
+
+    <div th:fragment="details" class="text-white max-w-[60rem] relative mb-4">
+      <hr class="border-1 border-teal-400/75 mx-auto my-2" />
+      <div class="w-2/3">
+        <h3
+          th:if="${movie.imdb == ''}"
+          th:text="${movie.title}"
+          class="text-teal-200 text-left text-2xl font-black uppercase"
+        ></h3>
+        <h3
+          th:if="${movie.imdb != ''}"
+          class="text-teal-200 text-left text-2xl font-black uppercase"
+        >
+          <a
+            th:href="'https://www.imdb.com/title/' + ${movie.imdb}"
+            target="_blank"
+            th:text="${movie.title}"
+            class="hover:underline decoration-teal-200"
+          ></a>
+        </h3>
+        <div class="flex">
+          <p
+            th:text="${movie.year != 0 ? movie.year : '----'}"
+            class="text-sm text-slate-400"
+          ></p>
+          <p class="text-sm text-slate-400 mx-2">|</p>
+          <p
+            th:text="${movie.genre != '' ? movie.genre : '----'}"
+            class="text-sm text-slate-400"
+          ></p>
+        </div>
+        <div class="flex absolute top-0 right-0 mt-2 mr-4">
+          <button
+            id="delete-movie__btn"
+            th:hx-delete="'/movies/' + ${movie.id}"
+            hx-target="#movies-list__wrapper"
+            th:hx-confirm="'Tem certeza que deseja deletar o filme ' + ${movie.title} + '?'"
+            class="text-sm text-slate-400"
+          >
+            Deletar
+          </button>
+          <p class="text-sm text-slate-400 mx-2">|</p>
+          <button
+            th:hx-get="'/movies/' + ${movie.id} + '/update'"
+            hx-target="#movies-list__wrapper"
+            class="update-toggler text-sm text-slate-400"
+          >
+            Editar
+          </button>
+        </div>
+
+        <p
+          th:text="${movie.synopsis}"
+          class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-4 py-4 font-serif text-lg"
+        ></p>
+
+        <div class="grid grid-cols-[auto_1fr] gap-1">
+          <p class="uppercase font-bold mr-2">Direção</p>
+          <p th:text="${movie.director != '' ? movie.director : '----'}"></p>
+          <p class="uppercase font-bold mr-2">Elenco</p>
+          <p th:text="${movie.casting != '' ? movie.casting : '----'}"></p>
+        </div>
+      </div>
+
+      <div
+        th:id="'comments-btns__' + ${movie.id}"
+        class="comments-toggler flex w-[35ch] sm:w-[45ch] lg:w-[75ch] justify-start mt-8"
+      >
+        <button
+          th:hx-get="'/movies/' + ${movie.id} + '/comments'"
+          th:hx-target="'#comments__' + ${movie.id}"
+          class="text-sm text-slate-400 hover:underline decoration-slate-400"
+        >
+          Ver comentários
+        </button>
+        <p class="text-sm text-slate-400 mx-2">|</p>
+        <button
+          class="text-sm text-slate-400 hover:underline decoration-slate-400"
+        >
+          Incluir comentário
+        </button>
+      </div>
+
+      <div th:id="'comments__' + ${movie.id}" class=""></div>
+      <script>
+        $('div.comments-toggler button').on('click', e => {
+          const movieId = $(e.target).parent().hide();
+        });
+
+        $('button.update-toggler').on('click', e => {
+          $('#new-movie__btn').hide();
+        });
+      </script>
+    </div>
+
+    <div th:fragment="comments">
+      <div class="flex w-[35ch] sm:w-[45ch] lg:w-[75ch] justify-start mt-8">
+        <button
+          th:id="'hide-comments__' + ${movieId}"
+          class="hide-comments text-sm text-slate-400 hover:underline decoration-slate-400"
+        >
+          Ocultar comentários
+        </button>
+        <p class="text-sm text-slate-400 mx-2">|</p>
+        <button
+          class="text-sm text-slate-400 hover:underline decoration-slate-400"
+        >
+          Incluir comentário
+        </button>
+      </div>
+      <h4 class="text-slate-400 text-left text-xl font-black uppercase mb-2">
+        Comentários
+      </h4>
+
+      <div class="my-4">
+        <p class="font-mono text-lg font-bold">
+          <span class="text-sm">⭐</span> 9<span class="text-sm">/10</span>
+        </p>
+        <p class="font-mono text-lg font-bold">❯ Titulo do Comentário</p>
+        <p class="font-mono w-[35ch] sm:w-[45ch] lg:w-[75ch] px-4">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias,
+          obcaecati dolorem ex eos eligendi quasi explicabo harum veniam libero
+          nulla nisi incidunt corporis mollitia nostrum aliquam enim tempore
+          animi possimus.
+        </p>
+      </div>
+      <div class="my-4">
+        <p class="font-mono text-lg font-bold">
+          <span class="text-sm">⭐</span> 7<span class="text-sm">/10</span>
+        </p>
+        <p class="font-mono text-lg font-bold">❯ Titulo do Comentário</p>
+        <p class="font-mono w-[35ch] sm:w-[45ch] lg:w-[75ch] px-4">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias,
+          obcaecati dolorem ex eos eligendi quasi explicabo harum veniam libero
+          nulla nisi incidunt corporis mollitia nostrum aliquam enim tempore
+          animi possimus.
+        </p>
+      </div>
+      <script>
+        $('button.hide-comments').on('click', e => {
+          const movieId = $(e.target).attr('id').replace('hide-comments__', '');
+          $(`#comments__${movieId}`).html('');
+          $(`#comments-btns__${movieId}`).show();
+        });
+      </script>
+    </div>
+  </body>
+</html>

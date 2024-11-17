@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Livros</title>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      hr {
+        width: 33%;
+        margin-inline: auto;
+      }
+      table {
+        width: 75%;
+        margin-inline: auto;
+        margin-block-start: 2rem;
+        border: 2px solid grey;
+      }
+
+      td {
+        padding: 1rem;
+        text-align: center;
+        max-width: 75ch;
+        text-wrap: balance;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Livros</h1>
+    <hr />
+    <table rules="all">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autoria</th>
+          <th>Editora</th>
+          <th>Ano</th>
+          <th>ISBN</th>
+          <th>Páginas</th>
+          <th>Sinopse</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="book:${books}">
+          <td th:text="${book.title}"></td>
+          <td th:text="${book.author}"></td>
+          <td th:text="${book.publisher}"></td>
+          <td th:text="${book.year}"></td>
+          <td th:text="${book.isbn}"></td>
+          <td th:text="${book.pagesCount}"></td>
+          <td th:text="${book.synopsis}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
