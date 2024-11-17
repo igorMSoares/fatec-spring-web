@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comentários</title>
+  </head>
+  <body>
+    <div th:fragment="comments">
+      <div class="flex w-[35ch] sm:w-[45ch] lg:w-[75ch] justify-start mt-8">
+        <button
+          th:id="'hide-comments__' + ${mediaId}"
+          class="hide-comments text-sm text-slate-400 hover:underline decoration-slate-400"
+        >
+          Ocultar comentários
+        </button>
+        <p class="text-sm text-slate-400 mx-2">|</p>
+        <button
+          th:hx-get="'/movies/' + ${mediaId} + '/comments/new'"
+          th:hx-target="'#comments__' + ${mediaId}"
+          class="text-sm text-slate-400 hover:underline decoration-slate-400"
+        >
+          Incluir comentário
+        </button>
+      </div>
+      <h4 class="text-slate-400 text-left text-xl font-black uppercase mb-2">
+        Comentários
+      </h4>
+
+      <div th:each="comment:${comments}" class="my-4">
+        <p class="font-mono text-lg font-bold">
+          <span class="text-sm">⭐</span>
+          <span th:text="${comment.rating}"></span
+          ><span class="text-sm">/10</span>
+        </p>
+        <p
+          th:text="'❯ ' + ${comment.title}"
+          class="font-mono text-lg font-bold"
+        ></p>
+        <p
+          th:text="${comment.content}"
+          class="font-mono w-[35ch] sm:w-[45ch] lg:w-[75ch] px-4"
+        ></p>
+        <p
+          th:text="${#dates.format(comment.createdAt, 'dd/MM/yyyy HH:mm')}"
+          class="text-xs text-slate-400 leading-4 px-4"
+        ></p>
+      </div>
+      <script>
+        $('button.hide-comments').on('click', e => {
+          const mediaId = $(e.target).attr('id').replace('hide-comments__', '');
+          $(`#comments__${mediaId}`).html('');
+          $(`#comments-btns__${mediaId}`).show();
+        });
+      </script>
+    </div>
+  </body>
+</html>

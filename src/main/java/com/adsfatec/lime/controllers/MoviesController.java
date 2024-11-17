@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.adsfatec.lime.models.Comment;
 import com.adsfatec.lime.models.Movie;
+import com.adsfatec.lime.models.enums.MediaType;
 import com.adsfatec.lime.services.MovieService;
 
 @Controller
@@ -102,5 +104,16 @@ public class MoviesController {
         model.addAttribute("movieId", movieId);
 
         return "movies/movies :: comments";
+    }
+
+    @GetMapping("/{movieId}/comments/new")
+    public String getCommentsForm(@PathVariable String movieId, Model model) {
+        Comment c = new Comment();
+        c.setMediaType(MediaType.MOVIE);
+        c.setMediaId(movieId);
+
+        model.addAttribute("comment", c);
+
+        return "comments/form :: form";
     }
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Novo Comentário</title>
+  </head>
+  <body>
+    <div th:fragment="form" class="text-white max-w-[60rem] relative mb-8">
+      <hr class="border-1 border-teal-400/75 w-100 mx-auto mb-2 mt-8" />
+      <div class="w-2/3">
+        <h3 class="text-teal-200 text-left text-2xl font-black uppercase">
+          Novo Comentário
+        </h3>
+        <div class="flex absolute top-0 right-0 mt-2 mr-4">
+          <button
+            th:hx-get="'/comments/' + ${comment.mediaType} + '/' + ${comment.mediaId}"
+            th:hx-target="'#comments__' + ${comment.mediaId}"
+            id="comment-form__cancel-btn"
+            class="text-sm text-slate-400 hover:underline decoration-teal-200"
+          >
+            Cancelar
+          </button>
+        </div>
+
+        <form
+          id="comment__form"
+          th:hx-post="'/comments/' + ${comment.mediaType} + '/' + ${comment.mediaId}"
+          hx-trigger="submit"
+          th:hx-target="'#comments__' + ${comment.mediaId}"
+          th:object="${comment}"
+        >
+          <p
+            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
+          >
+            <label
+              for="comment-title__inpt"
+              class="text-slate-400 text-lg font-bold font-sans mb-2"
+              >Título</label
+            >
+            <input
+              id="comment-title__inpt"
+              type="text"
+              name="title"
+              th:field="*{title}"
+              required
+              class="w-full sm:w-2/3 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans font-bold border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+            />
+          </p>
+
+          <p
+            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
+          >
+            <label
+              for="comment-rating__inpt"
+              class="text-slate-400 text-lg font-bold font-sans mb-2"
+              >Nota (de 0 a 10)</label
+            >
+            <input
+              id="comment-rating__inpt"
+              type="text"
+              name="rating"
+              min="0"
+              max="10"
+              maxlength="2"
+              th:field="*{rating}"
+              class="w-[6ch] bg-transparent placeholder:text-slate-400 placeholder:font-bold text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+          </p>
+          <p
+            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
+          >
+            <label
+              for="comment-content__inpt"
+              class="text-slate-400 text-lg font-bold font-sans mb-2"
+              >Comentário</label
+            >
+            <textarea
+              id="comment-content__inpt"
+              name="content"
+              th:field="*{content}"
+              class="w-full sm:w-2/3 h-40 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+            ></textarea>
+          </p>
+
+          <p class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg">
+            <span class="w-2/3 flex justify-end">
+              <button
+                id="comment-form__submit-btn"
+                type="submit"
+                class="text-lg text-slate-400 mx-4 hover:underline decoration-teal-200"
+              >
+                Salvar
+              </button>
+            </span>
+          </p>
+        </form>
+      </div>
+      <script>
+        $('#comment-form__cancel-btn').on('click', () => {});
+
+        $('#movie-form__submit-btn').on('click', () => {});
+      </script>
+    </div>
+  </body>
+</html>
