@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro de Filmes</title>
+    <title>Cadastro de Livros</title>
   </head>
   <body>
     <div th:fragment="form" class="text-white max-w-[60rem] relative mb-8">
       <hr class="border-1 border-teal-400/75 w-100 mx-auto my-2" />
       <div class="w-2/3">
         <h3
-          th:text="${movie.id == null ? 'Cadastrar Filme' : 'Alterar Filme'}"
+          th:text="${book.id == null ? 'Cadastrar Livro' : 'Alterar Livro'}"
           class="text-teal-200 text-left text-2xl font-black uppercase"
         ></h3>
         <div class="flex absolute top-0 right-0 mt-2 mr-4">
           <button
-            id="movie-form__cancel-btn"
-            th:hx-get="${movie.id == null ? '/movies/table' : '/movies/' + movie.id}"
-            hx-target="#movies-list__wrapper"
+            id="book-form__cancel-btn"
+            th:hx-get="${book.id == null ? '/books/table' : '/books/' + book.id}"
+            hx-target="#books-list__wrapper"
             class="text-sm text-slate-400 hover:underline decoration-teal-200"
           >
             Cancelar
@@ -26,25 +26,43 @@
 
         <form
           id="movie__form"
-          th:attr="hx-post=${movie.id == null ? '/movies' : null},
-                   hx-put=${movie.id != null ? '/movies/' + movie.id : null}"
+          th:attr="hx-post=${book.id == null ? '/books' : null},
+                   hx-put=${book.id != null ? '/books/' + book.id : null}"
           hx-trigger="submit"
-          hx-target="#movies-list__wrapper"
-          th:object="${movie}"
+          hx-target="#books-list__wrapper"
+          th:object="${book}"
         >
           <p
             class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
           >
             <label
-              for="movie-title__inpt"
+              for="book-title__inpt"
               class="text-slate-400 text-lg font-bold font-sans mb-2"
               >Título</label
             >
             <input
-              id="movie-title__inpt"
+              id="book-title__inpt"
               type="text"
               name="title"
               th:field="*{title}"
+              required
+              class="w-full sm:w-2/3 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans font-bold border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+              placeholder=""
+            />
+          </p>
+          <p
+            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
+          >
+            <label
+              for="book-title__inpt"
+              class="text-slate-400 text-lg font-bold font-sans mb-2"
+              >Autoria</label
+            >
+            <input
+              id="book-author__inpt"
+              type="text"
+              name="author"
+              th:field="*{author}"
               required
               class="w-full sm:w-2/3 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans font-bold border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
               placeholder=""
@@ -55,12 +73,12 @@
               class="w-1/4 max-w-fit my-2 mr-4 font-serif text-lg flex flex-col"
             >
               <label
-                for="movie-year__inpt"
+                for="book-year__inpt"
                 class="text-slate-400 text-lg font-bold font-sans mb-2"
                 >Ano</label
               >
               <input
-                id="movie-year__inpt"
+                id="book-year__inpt"
                 type="text"
                 name="year"
                 th:field="*{year}"
@@ -72,15 +90,52 @@
               class="w-full sm:w-[49%] lg:w-[56%] my-2 font-serif text-lg flex flex-col"
             >
               <label
-                for="movie-genre__inpt"
+                for="book-publisher__inpt"
                 class="text-slate-400 text-lg font-bold font-sans mb-2"
-                >Gênero</label
+                >Editora</label
               >
               <input
-                id="movie-genre__inpt"
+                id="book-publisher__inpt"
                 type="text"
-                name="genre"
-                th:field="*{genre}"
+                name="publisher"
+                th:field="*{publisher}"
+                class="w-full bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                placeholder=""
+              />
+            </p>
+          </div>
+          <div class="flex w-[35ch] sm:w-[45ch] lg:w-[75ch]">
+            <p
+              class="w-1/4 max-w-fit my-2 mr-4 font-serif text-lg flex flex-col"
+            >
+              <label
+                for="book-pages__inpt"
+                class="text-slate-400 text-lg font-bold font-sans mb-2"
+                >Páginas</label
+              >
+              <input
+                id="book-pages__inpt"
+                type="text"
+                name="pages"
+                th:field="*{pagesCount}"
+                class="w-[6ch] bg-transparent placeholder:text-slate-400 placeholder:font-bold text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                placeholder=""
+              />
+            </p>
+            <p
+              class="w-full sm:w-[49%] lg:w-[56%] my-2 font-serif text-lg flex flex-col"
+            >
+              <label
+                for="book-isbn__inpt"
+                class="text-slate-400 text-lg font-bold font-sans mb-2"
+                >ISBN</label
+              >
+              <input
+                id="book-isbn__inpt"
+                type="text"
+                name="isbn"
+                maxlength="13"
+                th:field="*{isbn}"
                 class="w-full bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                 placeholder=""
               />
@@ -90,75 +145,22 @@
             class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
           >
             <label
-              for="movie-director__inpt"
-              class="text-slate-400 text-lg font-bold font-sans mb-2"
-              >Direção</label
-            >
-            <input
-              id="movie-director__inpt"
-              type="text"
-              name="director"
-              th:field="*{director}"
-              class="w-full sm:w-2/3 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-              placeholder=""
-            />
-          </p>
-          <p
-            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
-          >
-            <label
-              for="movie-casting__inpt"
-              class="text-slate-400 text-lg font-bold font-sans mb-2"
-              >Elenco</label
-            >
-
-            <input
-              id="movie-casting__inpt-0"
-              type="text"
-              name="casting"
-              th:field="*{casting}"
-              class="w-full sm:w-2/3 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-              placeholder=""
-            />
-          </p>
-          <p
-            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
-          >
-            <label
-              for="movie-synopsis__inpt"
+              for="book-synopsis__inpt"
               class="text-slate-400 text-lg font-bold font-sans mb-2"
               >Sinopse</label
             >
             <textarea
-              id="movie-synopsis__inpt"
+              id="book-synopsis__inpt"
               name="synopsis"
               th:field="*{synopsis}"
               class="w-full sm:w-2/3 h-40 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
             ></textarea>
           </p>
-          <p
-            class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg flex flex-col"
-          >
-            <label
-              for="movie-imdb__inpt"
-              class="text-slate-400 text-lg font-bold font-sans mb-2"
-              >Código IMDb</label
-            >
-            <input
-              id="movie-imdb__inpt"
-              type="text"
-              name="imdb"
-              maxlength="10"
-              th:field="*{imdb}"
-              class="w-full sm:w-2/3 bg-transparent placeholder:text-slate-400 text-teal-200 text-lg font-sans border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-              placeholder="ex.: tt0102926"
-            />
-          </p>
 
           <p class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-2 font-serif text-lg">
             <span class="w-2/3 flex justify-end">
               <button
-                id="movie-form__submit-btn"
+                id="book-form__submit-btn"
                 type="submit"
                 class="text-lg text-slate-400 mx-4 hover:underline decoration-teal-200"
               >
@@ -169,12 +171,12 @@
         </form>
       </div>
       <script>
-        $('#movie-form__cancel-btn').on('click', () => {
-          $('#new-movie__btn').css('visibility', 'visible');
+        $('#book-form__cancel-btn').on('click', () => {
+          $('#new-book__btn').css('visibility', 'visible');
         });
 
-        $('#movie-form__submit-btn').on('click', () => {
-          $('#new-movie__btn').css('visibility', 'visible');
+        $('#book-form__submit-btn').on('click', () => {
+          $('#new-book__btn').css('visibility', 'visible');
         });
       </script>
     </div>

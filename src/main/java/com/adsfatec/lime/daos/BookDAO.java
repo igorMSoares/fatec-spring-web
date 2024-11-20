@@ -37,7 +37,7 @@ public class BookDAO {
                     rs.getString("publisher"),
                     rs.getInt("year"),
                     rs.getString("isbn"),
-                    rs.getInt("pagesCount"),
+                    rs.getInt("pages"),
                     rs.getString("synopsis"));
         });
     }
@@ -53,7 +53,7 @@ public class BookDAO {
                     rs.getString("publisher"),
                     rs.getInt("year"),
                     rs.getString("isbn"),
-                    rs.getInt("pagesCount"),
+                    rs.getInt("pages"),
                     rs.getString("synopsis"));
         }, id);
     }
@@ -81,7 +81,7 @@ public class BookDAO {
                     title,
                     year,
                     author,
-                    pagesCount,
+                    pages,
                     publisher,
                     isbn,
                     synopsis,
@@ -113,7 +113,7 @@ public class BookDAO {
                      title = ?,
                      year = ?,
                      author = ?,
-                     pagesCount = ?,
+                     pages = ?,
                      publisher = ?,
                      isbn = ?,
                      synopsis = ?,

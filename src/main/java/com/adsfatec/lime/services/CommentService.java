@@ -28,6 +28,10 @@ public class CommentService {
         return dao.findAllByMovieId(movieId);
     }
 
+    public List<Comment> listAllByBookId(String bookId) {
+        return dao.findAllByBookId(bookId);
+    }
+
     public void delete(String id) {
         dao.deleteById(id);
     }

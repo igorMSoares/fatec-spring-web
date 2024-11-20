@@ -33,6 +33,32 @@ public class CommentDAO {
         jdbc = new JdbcTemplate(dataSource);
     }
 
+    public List<Comment> findAllByBookId(String bookId) {
+        String sql = """
+                SELECT
+                    c.id,
+                    c.title,
+                    c.content,
+                    c.rating,
+                    c.created_at
+                FROM comment c
+                JOIN book_comment bc ON c.id = bc.comment_id
+                WHERE bc.book_id = ?
+                ORDER BY c.created_at DESC;
+                """;
+
+        return jdbc.query(sql, (rs, i) -> {
+            return new Comment(
+                    rs.getString("id"),
+                    rs.getString("title"),
+                    rs.getString("content"),
+                    rs.getInt("rating"),
+                    rs.getTimestamp("created_at").toInstant(),
+                    bookId,
+                    MediaType.BOOK);
+        }, bookId);
+    }
+
     public List<Comment> findAllByMovieId(String movieId) {
         String sql = """
                 SELECT
@@ -60,10 +86,16 @@ public class CommentDAO {
     }
 
     public void insert(Comment c) {
-        if (c.getMediaType() == MediaType.MOVIE) {
-            this.insertMovieComment(c);
+        switch (c.getMediaType()) {
+            case MOVIE:
+                this.insertMovieComment(c);
+                break;
+            case BOOK:
+                this.insertBookComment(c);
+                break;
+            default:
+                return;
         }
-
     }
 
     private void insertMovieComment(Comment c) {
@@ -95,6 +127,51 @@ public class CommentDAO {
                             id,
                             comment_id,
                             movie_id
+                        ) VALUES (?, ?, ?)
+                        """;
+
+                jdbc.update(sql,
+                        UUID.randomUUID().toString(),
+                        c.getId(),
+                        c.getMediaId());
+
+                return null;
+            } catch (Exception e) {
+                status.setRollbackOnly();
+                throw e;
+            }
+        });
+    }
+
+    private void insertBookComment(Comment c) {
+        c.setCreatedAt(Instant.now());
+
+        TransactionTemplate transaction = new TransactionTemplate(transactionManager);
+
+        transaction.execute(status -> {
+            try {
+                String sql = """
+                        INSERT INTO comment(
+                            id,
+                            title,
+                            content,
+                            rating,
+                            created_at
+                        ) VALUES (?, ?, ?, ?, ?)
+                        """;
+
+                jdbc.update(sql,
+                        c.getId(),
+                        c.getTitle(),
+                        c.getContent(),
+                        c.getRating(),
+                        Timestamp.from(c.getCreatedAt()));
+
+                sql = """
+                        INSERT INTO book_comment(
+                            id,
+                            comment_id,
+                            book_id
                         ) VALUES (?, ?, ?)
                         """;
 

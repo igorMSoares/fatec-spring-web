@@ -48,14 +48,14 @@ CREATE TABLE
 
 CREATE INDEX IF NOT EXISTS idx_created_at ON comment (created_at DESC);
 
--- CREATE TABLE
---   IF NOT EXISTS book_comment (
---     id VARCHAR(36) PRIMARY KEY,
---     comment_id VARCHAR(36) NOT NULL UNIQUE,
---     book_id VARCHAR(36) NOT NULL,
---     CONSTRAINT fk_comment FOREIGN KEY (comment_id) REFERENCES comment(id) ON DELETE CASCADE,
---     CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE,
---   );
+CREATE TABLE
+  IF NOT EXISTS book_comment (
+    id VARCHAR(36) PRIMARY KEY,
+    comment_id VARCHAR(36) NOT NULL UNIQUE,
+    book_id VARCHAR(36) NOT NULL,
+    CONSTRAINT fk_comment FOREIGN KEY (comment_id) REFERENCES comment(id) ON DELETE CASCADE,
+    CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE
+  );
 
 CREATE TABLE
   IF NOT EXISTS movie_comment (

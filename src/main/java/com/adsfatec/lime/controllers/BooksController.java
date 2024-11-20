@@ -104,7 +104,7 @@ public class BooksController {
 
         model.addAttribute("book", book);
 
-        return "books/books :: details";
+        return "books/details :: details";
     }
 
     @GetMapping("/{bookId}/comments/new")

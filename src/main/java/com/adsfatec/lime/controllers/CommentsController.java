@@ -35,6 +35,9 @@ public class CommentsController {
         if (mediaType == MediaType.MOVIE) {
             List<Comment> comments = service.listAllByMovieId(mediaId);
             model.addAttribute("comments", comments);
+        } else if (mediaType == MediaType.BOOK) {
+            List<Comment> comments = service.listAllByBookId(mediaId);
+            model.addAttribute("comments", comments);
         }
 
         model.addAttribute("mediaId", mediaId);
@@ -52,15 +55,19 @@ public class CommentsController {
 
         service.insert(comment);
 
-        List<Comment> comments = service.listAllByMovieId(mediaId);
-
-        model.addAttribute("comments", comments);
+        if (comment.getMediaType() == MediaType.MOVIE) {
+            List<Comment> comments = service.listAllByMovieId(mediaId);
+            model.addAttribute("comments", comments);
+        } else if (comment.getMediaType() == MediaType.BOOK) {
+            List<Comment> comments = service.listAllByBookId(mediaId);
+            model.addAttribute("comments", comments);
+        }
 
         return "comments/comments :: list";
     }
 
     @DeleteMapping("/{commentId}/{mediaType}/{mediaId}")
-    public String deleteMovie(
+    public String deleteComment(
             @PathVariable String commentId,
             @PathVariable MediaType mediaType,
             @PathVariable String mediaId,
@@ -69,6 +76,9 @@ public class CommentsController {
 
         if (mediaType == MediaType.MOVIE) {
             List<Comment> comments = service.listAllByMovieId(mediaId);
+            model.addAttribute("comments", comments);
+        } else if (mediaType == MediaType.BOOK) {
+            List<Comment> comments = service.listAllByBookId(mediaId);
             model.addAttribute("comments", comments);
         }
 

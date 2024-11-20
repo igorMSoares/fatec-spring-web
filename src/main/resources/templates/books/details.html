@@ -3,61 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LIME | Filmes</title>
+    <title>LIME | Livros</title>
   </head>
   <body>
     <div th:fragment="details" class="text-white max-w-[60rem] relative mb-4">
       <hr class="border-1 border-teal-400/75 mx-auto my-2" />
       <div class="w-2/3">
         <h3
-          th:if="${movie.imdb == ''}"
-          th:text="${movie.title}"
+          th:text="${book.title}"
           class="text-teal-200 text-left text-2xl font-black uppercase"
         ></h3>
-        <h3
-          th:if="${movie.imdb != ''}"
-          class="text-teal-200 text-left text-2xl font-black uppercase"
-        >
-          <a
-            th:href="'https://www.imdb.com/title/' + ${movie.imdb}"
-            target="_blank"
-            th:text="${movie.title}"
-            class="hover:underline decoration-teal-200"
-          ></a>
-        </h3>
+
         <div class="flex">
           <p
-            th:text="${movie.year != 0 ? movie.year : '----'}"
+            th:text="${book.year != 0 ? book.year : '----'}"
             class="text-sm text-slate-400"
           ></p>
           <p class="text-sm text-slate-400 mx-2">|</p>
           <p
-            th:text="${movie.genre != '' ? movie.genre : '----'}"
+            th:text="${book.author != '' ? book.author : '----'}"
+            class="text-sm text-slate-400"
+          ></p>
+          <p class="text-sm text-slate-400 mx-2">|</p>
+          <p
+            th:text="${book.pagesCount != '' ? book.pagesCount + ' páginas' : '----'}"
             class="text-sm text-slate-400"
           ></p>
         </div>
         <div class="flex absolute top-0 right-0 mt-2 mr-4">
           <button
-            id="delete-movie__btn"
-            th:hx-delete="'/movies/' + ${movie.id}"
-            hx-target="#movies-list__wrapper"
-            th:hx-confirm="'Tem certeza que deseja deletar o filme ' + ${movie.title} + '?'"
+            id="delete-book__btn"
+            th:hx-delete="'/books/' + ${book.id}"
+            hx-target="#books-list__wrapper"
+            th:hx-confirm="'Tem certeza que deseja deletar o livro ' + ${book.title} + '?'"
             class="text-sm text-slate-400 hover:underline decoration-slate-400"
           >
             Deletar
           </button>
           <p class="text-sm text-slate-400 mx-2">|</p>
           <button
-            th:hx-get="'/movies/' + ${movie.id} + '/update'"
-            hx-target="#movies-list__wrapper"
+            th:hx-get="'/books/' + ${book.id} + '/update'"
+            hx-target="#books-list__wrapper"
             class="update-toggler text-sm text-slate-400 hover:underline decoration-slate-400"
           >
             Editar
           </button>
           <p class="text-sm text-slate-400 mx-2">|</p>
           <button
-            hx-get="/movies/table"
-            hx-target="#movies-list__wrapper"
+            hx-get="/books/table"
+            hx-target="#books-list__wrapper"
             class="text-sm text-slate-400 hover:underline decoration-slate-400"
           >
             Voltar
@@ -65,47 +59,47 @@
         </div>
 
         <p
-          th:text="${movie.synopsis}"
+          th:text="${book.synopsis}"
           class="w-[35ch] sm:w-[45ch] lg:w-[75ch] my-4 py-4 font-serif text-lg"
         ></p>
 
         <div class="grid grid-cols-[auto_1fr] gap-1">
-          <p class="uppercase font-bold mr-2">Direção</p>
-          <p th:text="${movie.director != '' ? movie.director : '----'}"></p>
-          <p class="uppercase font-bold mr-2">Elenco</p>
-          <p th:text="${movie.casting != '' ? movie.casting : '----'}"></p>
+          <p class="uppercase font-bold mr-2">Editora</p>
+          <p th:text="${book.publisher != '' ? book.publisher : '----'}"></p>
+          <p class="uppercase font-bold mr-2">ISBN</p>
+          <p th:text="${book.isbn != '' ? book.isbn : '----'}"></p>
         </div>
       </div>
 
       <div
-        th:id="'comments-btns__' + ${movie.id}"
+        th:id="'comments-btns__' + ${book.id}"
         class="comments-toggler flex w-[35ch] sm:w-[45ch] lg:w-[75ch] justify-start mt-8"
       >
         <button
-          th:hx-get="'/comments/MOVIE/' + ${movie.id}"
-          th:hx-target="'#comments__' + ${movie.id}"
+          th:hx-get="'/comments/BOOK/' + ${book.id}"
+          th:hx-target="'#comments__' + ${book.id}"
           class="text-sm text-slate-400 hover:underline decoration-slate-400"
         >
           Ver comentários
         </button>
         <p class="text-sm text-slate-400 mx-2">|</p>
         <button
-          th:hx-get="'/movies/' + ${movieId} + '/comments/new'"
-          th:hx-target="'#comments__' + ${movieId}"
+          th:hx-get="'/books/' + ${bookId} + '/comments/new'"
+          th:hx-target="'#comments__' + ${bookId}"
           class="text-sm text-slate-400 hover:underline decoration-slate-400"
         >
           Incluir comentário
         </button>
       </div>
 
-      <div th:id="'comments__' + ${movie.id}" class=""></div>
+      <div th:id="'comments__' + ${book.id}" class=""></div>
       <script>
         $('div.comments-toggler button').on('click', e => {
-          const movieId = $(e.target).parent().hide();
+          const bookId = $(e.target).parent().hide();
         });
 
         $('button.update-toggler').on('click', e => {
-          $('#new-movie__btn').css('visibility', 'hidden');
+          $('#new-book__btn').css('visibility', 'hidden');
         });
       </script>
     </div>

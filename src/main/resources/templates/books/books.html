@@ -32,12 +32,12 @@
         |
       </p>
       <p
-        hx-get="/books"
+        hx-get="/movies"
         hx-target="body"
         hx-push-url="true"
         class="text-lg uppercase text-teal-200 mr-2 hover:cursor-pointer collapse sm:visible hover:underline decoration-teal-200"
       >
-        Livros
+        Filmes
       </p>
       <p
         class="text-2xl uppercase text-teal-200 mr-2 hover:cursor-pointer collapse sm:visible"
@@ -47,7 +47,7 @@
       <p
         class="text-lg uppercase font-bold text-teal-200 mr-2 collapse sm:visible"
       >
-        Filmes ❯
+        Livros ❯
       </p>
     </div>
     <div id="main-wrapper" class="w-full sm:w-3/4 mx-auto my-8 py-4 sm:px-6">
@@ -55,61 +55,61 @@
         <h2
           class="text-teal-200 text-center text-5xl sm:text-6xl font-black uppercase mb-8"
         >
-          Filmes
+          Livros
         </h2>
         <div
           class="flex justify-end my-2 mr-4 hover:underline decoration-teal-200"
         >
           <button
-            id="new-movie__btn"
-            hx-get="/movies/new"
-            hx-target="#movies-list__wrapper"
+            id="new-book__btn"
+            hx-get="/books/new"
+            hx-target="#books-list__wrapper"
             class="text-sm text-slate-400"
           >
-            Novo Filme
+            Novo Livro
           </button>
         </div>
 
-        <div id="movie-form__wrapper" class="hidden"></div>
+        <div id="book-form__wrapper" class="hidden"></div>
 
-        <div th:fragment="table" id="movies-list__wrapper">
+        <div th:fragment="table" id="books-list__wrapper">
           <div
-            th:if="${!movies.empty}"
+            th:if="${!books.empty}"
             class="grid grid-cols-[1fr_auto_1fr_auto] justify-items-center font-bold uppercase"
           >
             <p class="px-4 py-2">Título</p>
             <p class="px-4 py-2">Ano</p>
-            <p class="px-4 py-2">Gênero</p>
+            <p class="px-4 py-2">Autor</p>
             <p class="px-4 py-2 min-w-[5ch]">&nbsp;</p>
           </div>
 
           <hr class="border-teal-400/75 mx-auto my-2" />
 
           <p
-            th:if="${movies.empty}"
+            th:if="${books.empty}"
             class="text-lg text-center font-bold font-sans my-4"
           >
-            Nenhum filme cadastrado.
+            Nenhum livro cadastrado.
           </p>
-          <div th:each="movie:${movies}">
+          <div th:each="book:${books}">
             <div
-              th:id="'list-wrapper__' + ${movie.id}"
+              th:id="'list-wrapper__' + ${book.id}"
               class="grid grid-cols-[1fr_auto_1fr_auto] justify-items-center"
             >
-              <p th:text="${movie.title}" class="text-center px-4 py-2"></p>
+              <p th:text="${book.title}" class="text-center px-4 py-2"></p>
               <p
-                th:text="${movie.year != 0 ? movie.year : '----'}"
+                th:text="${book.year != 0 ? book.year : '----'}"
                 class="text-center px-4 py-2"
               ></p>
               <p
-                th:text="${movie.genre != '' ? movie.genre : '----'}"
+                th:text="${book.author != '' ? book.author : '----'}"
                 class="text-center px-4 py-2"
               ></p>
               <p class="text-center px-4 py-2">
                 <button
-                  th:hx-get="'/movies/' + ${movie.id}"
-                  hx-target="#movies-list__wrapper"
-                  th:id="'details-btn__' + ${movie.id}"
+                  th:hx-get="'/books/' + ${book.id}"
+                  hx-target="#books-list__wrapper"
+                  th:id="'details-btn__' + ${book.id}"
                   type="button"
                   class="details-toggler min-w-4"
                 >
@@ -121,7 +121,7 @@
                   />
                 </button>
                 <button
-                  th:id="'close-details-btn__' + ${movie.id}"
+                  th:id="'close-details-btn__' + ${book.id}"
                   type="button"
                   class="details-toggler min-w-4 hidden"
                 >
@@ -130,12 +130,12 @@
               </p>
             </div>
 
-            <div th:id="'details__' + ${movie.id}" class="hidden"></div>
+            <div th:id="'details__' + ${book.id}" class="hidden"></div>
             <hr class="border border-teal-400/75 mx-auto my-2" />
           </div>
           <script>
-            $('#new-movie__btn').on('click', _ => {
-              $('#new-movie__btn').css('visibility', 'hidden');
+            $('#new-book__btn').on('click', _ => {
+              $('#new-book__btn').css('visibility', 'hidden');
             });
           </script>
         </div>

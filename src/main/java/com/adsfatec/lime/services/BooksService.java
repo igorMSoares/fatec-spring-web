@@ -32,14 +32,22 @@ public class BooksService {
             return;
         }
 
+        if (b.getIsbn().length() > 13) {
+            b.setIsbn("");
+        }
+
         b.setId(this.generateUUID());
         dao.insert(b);
     }
 
     public void update(String id, Book b) {
-       // if (m.getImdb().length() > 10) {
-       //     m.setImdb("");
-       // }
+        if (b.getTitle().length() == 0) {
+            return;
+        }
+
+        if (b.getIsbn().length() > 13) {
+            b.setIsbn("");
+        }
 
         dao.updateById(id, b);
     }

@@ -41,6 +41,10 @@ public class MovieService {
     }
 
     public void update(String id, Movie m) {
+        if (m.getTitle().length() == 0) {
+            return;
+        }
+
         if (m.getImdb().length() > 10) {
             m.setImdb("");
         }

@@ -19,21 +19,38 @@
   <body class="bg-slate-950 min-w-[22rem] sm:min-w-[32rem]">
     <!-- Main Wrapper -->
     <div id="main-wrapper" class="w-full sm:w-3/4 mx-auto my-8 py-4 sm:px-6">
-      <h1 class="text-teal-200 text-center text-7xl sm:text-9xl font-black uppercase">
+      <h1
+        class="text-teal-200 text-center text-7xl sm:text-9xl font-black uppercase"
+      >
         LIME
       </h1>
-      <p class="text-white text-center w-[35ch] sm:w-[45ch] md:w-[50ch] mx-auto my-4">
-        Aqui no LIME você encontra comentários sinceros sobre livros e filmes feitos por pessoas como eu e você. Aqui no LIME você também pode contribuir com nossa comunidade, deixando comentários sobre as mídias já cadastradas e até incluindo filmes e livros, os quais ainda não estejam no site, sobre os quais você gostaria de dar sua opinião.
-         Vem ser um LIMER você também!
+      <p
+        class="text-white text-center sm:text-xl w-[35ch] sm:w-[45ch] md:w-[50ch] mx-auto my-4"
+      >
+        Comentários sinceros sobre livros e filmes<br />
+        feitos por pessoas como eu e você.
       </p>
-
-
+      <p
+        class="text-white text-center sm:text-xl w-[35ch] sm:w-[45ch] md:w-[50ch] mx-auto my-4"
+      >
+        Aqui no LIME você também pode contribuir com nossa comunidade, deixando
+        comentários sobre as mídias já cadastradas e até incluindo outros filmes e
+        livros sobre os quais você gostaria de dar sua opinião.
+      </p>
+      <p
+        class="text-white text-center sm:text-xl font-bold w-[35ch] sm:w-[45ch] md:w-[50ch] mx-auto my-4"
+      >
+        Vem ser um LIMER você também!
+      </p>
 
       <!-- Buttons Wrapper -->
       <div class="w-2/3 mx-auto my-8 py-4 px-2 flex justify-around">
         <button
           type="button"
-          class="border-2 border-teal-600 rounded-md uppercase text-white text-center font-bold mx-4 py-2 px-8 hover:bg-teal-600/50"
+          hx-get="/books/list"
+          hx-target="body"
+          hx-push-url="/books"
+          class="border-2 border-teal-600 rounded-md uppercase text-teal-200 text-center sm:text-xl font-black mx-4 py-2 px-8 hover:bg-teal-600/50 hover:text-white"
         >
           Livros
         </button>
@@ -42,7 +59,7 @@
           hx-get="/movies/list"
           hx-target="body"
           hx-push-url="/movies"
-          class="border-2 border-teal-600 rounded-md uppercase text-white text-center font-bold mx-4 py-2 px-8 hover:bg-teal-600/50"
+          class="border-2 border-teal-600 rounded-md uppercase text-teal-200 text-center sm:text-xl font-black mx-4 py-2 px-8 hover:bg-teal-600/50 hover:text-white"
         >
           Filmes
         </button>
