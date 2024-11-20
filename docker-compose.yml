@@ -10,8 +10,8 @@ services:
       - SPRING_PROFILES_ACTIVE=production
       - DB_NAME=lime
       - DB_HOST=localhost
-      - DB_USER=
-      - DB_PASSWD=
+      - DB_USER=${LIME_DB_USER}
+      - DB_PASSWD=${LIME_DB_PASSWD}
     volumes:
       - ./logs:/app/logs
     restart: unless-stopped

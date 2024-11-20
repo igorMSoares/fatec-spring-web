@@ -6,6 +6,7 @@ target/
 
 ### DB credentials and other configurations
 application.yaml
+Makefile
 
 ### STS ###
 .apt_generated
