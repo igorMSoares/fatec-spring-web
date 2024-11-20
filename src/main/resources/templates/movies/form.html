@@ -16,7 +16,7 @@
         <div class="flex absolute top-0 right-0 mt-2 mr-4">
           <button
             id="movie-form__cancel-btn"
-            hx-get="/movies/table"
+            th:hx-get="${movie.id == null ? '/movies/table' : '/movies/' + movie.id}"
             hx-target="#movies-list__wrapper"
             class="text-sm text-slate-400 hover:underline decoration-teal-200"
           >
@@ -111,6 +111,7 @@
               class="text-slate-400 text-lg font-bold font-sans mb-2"
               >Elenco</label
             >
+
             <input
               id="movie-casting__inpt-0"
               type="text"
@@ -168,11 +169,11 @@
       </div>
       <script>
         $('#movie-form__cancel-btn').on('click', () => {
-          $('#new-movie__btn').show();
+          $('#new-movie__btn').css('visibility', 'visible');
         });
 
         $('#movie-form__submit-btn').on('click', () => {
-          $('#new-movie__btn').show();
+          $('#new-movie__btn').css('visibility', 'visible');
         });
       </script>
     </div>

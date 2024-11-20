@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class CommentsController {
 
         model.addAttribute("mediaId", mediaId);
 
-        return "comments/comments :: comments";
+        return "comments/comments :: list";
     }
 
     @PostMapping("/{mediaType}/{mediaId}")
@@ -55,6 +56,22 @@ public class CommentsController {
 
         model.addAttribute("comments", comments);
 
-        return "comments/comments :: comments";
+        return "comments/comments :: list";
+    }
+
+    @DeleteMapping("/{commentId}/{mediaType}/{mediaId}")
+    public String deleteMovie(
+            @PathVariable String commentId,
+            @PathVariable MediaType mediaType,
+            @PathVariable String mediaId,
+            Model model) {
+        service.delete(commentId);
+
+        if (mediaType == MediaType.MOVIE) {
+            List<Comment> comments = service.listAllByMovieId(mediaId);
+            model.addAttribute("comments", comments);
+        }
+
+        return "comments/comments :: list";
     }
 }

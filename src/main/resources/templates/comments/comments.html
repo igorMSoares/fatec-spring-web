@@ -6,7 +6,7 @@
     <title>Comentários</title>
   </head>
   <body>
-    <div th:fragment="comments">
+    <div th:fragment="list">
       <div class="flex w-[35ch] sm:w-[45ch] lg:w-[75ch] justify-start mt-8">
         <button
           th:id="'hide-comments__' + ${mediaId}"
@@ -27,23 +27,43 @@
         Comentários
       </h4>
 
+      <p th:if="${comments.empty}" class="text-lg font-bold font-sans my-4">
+        Nenhum comentário.
+      </p>
+
       <div th:each="comment:${comments}" class="my-4">
-        <p class="font-mono text-lg font-bold">
-          <span class="text-sm">⭐</span>
-          <span th:text="${comment.rating}"></span
-          ><span class="text-sm">/10</span>
-        </p>
+        <div
+          th:id="'comment-header__' + ${comment.id}"
+          class="show-on-hover flex"
+        >
+          <p class="font-mono text-lg font-bold">
+            <span class="text-sm">⭐</span>
+            <span th:text="${comment.rating}"></span
+            ><span class="text-sm">/10</span>
+          </p>
+          <button
+            type="button"
+            th:id="'close-comment-btn__' + ${comment.id}"
+            th:hx-delete="'/comments/' + ${comment.id} + '/' + ${comment.mediaType} + '/' + ${comment.mediaId}"
+            th:hx-target="'#comments__' + ${comment.mediaId}"
+            hx-confirm="Remover comentário?"
+            class="text-xs text-slate-400 leading-4 ml-[1ch] cursor-pointer hidden hover:underline decoration-slate-400 font-sans"
+          >
+            Deletar
+          </button>
+        </div>
+
         <p
           th:text="'❯ ' + ${comment.title}"
           class="font-mono text-lg font-bold"
         ></p>
         <p
-          th:text="${comment.content}"
-          class="font-mono w-[35ch] sm:w-[45ch] lg:w-[75ch] px-4"
-        ></p>
-        <p
           th:text="${#dates.format(comment.createdAt, 'dd/MM/yyyy HH:mm')}"
           class="text-xs text-slate-400 leading-4 px-4"
+        ></p>
+        <p
+          th:text="${comment.content}"
+          class="font-mono w-[35ch] sm:w-[45ch] lg:w-[75ch] px-4 py-4 whitespace-pre-wrap"
         ></p>
       </div>
       <script>
@@ -51,6 +71,40 @@
           const mediaId = $(e.target).attr('id').replace('hide-comments__', '');
           $(`#comments__${mediaId}`).html('');
           $(`#comments-btns__${mediaId}`).show();
+        });
+
+        $('div.show-on-hover').on('mouseenter', e => {
+          let el = $(e.target);
+
+          let maxCount = 4;
+          while (!el.is('div') || !el.attr('id')) {
+            el = el.parent();
+            maxCount--;
+
+            if (maxCount == 0) {
+              return;
+            }
+          }
+
+          const mediaId = el.attr('id').replace('comment-header__', '');
+          $(`#close-comment-btn__${mediaId}`).show();
+        });
+
+        $('div.show-on-hover').on('mouseleave', e => {
+          let el = $(e.target);
+
+          let maxCount = 4;
+          while (!el.is('div') || !el.attr('id')) {
+            el = el.parent();
+            maxCount--;
+
+            if (maxCount == 0) {
+              return;
+            }
+          }
+
+          const mediaId = el.attr('id').replace('comment-header__', '');
+          $(`#close-comment-btn__${mediaId}`).hide();
         });
       </script>
     </div>

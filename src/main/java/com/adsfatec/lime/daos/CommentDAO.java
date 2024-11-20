@@ -47,16 +47,15 @@ public class CommentDAO {
                 ORDER BY c.created_at DESC;
                 """;
 
-        return jdbc.query(sql, (rs, rowNum) -> {
-            Comment c = new Comment();
-
-            c.setId(rs.getString("id"));
-            c.setTitle(rs.getString("title"));
-            c.setContent(rs.getString("content"));
-            c.setRating(rs.getInt("rating"));
-            c.setCreatedAt(rs.getTimestamp("created_at").toInstant());
-
-            return c;
+        return jdbc.query(sql, (rs, i) -> {
+            return new Comment(
+                    rs.getString("id"),
+                    rs.getString("title"),
+                    rs.getString("content"),
+                    rs.getInt("rating"),
+                    rs.getTimestamp("created_at").toInstant(),
+                    movieId,
+                    MediaType.MOVIE);
         }, movieId);
     }
 
@@ -82,7 +81,8 @@ public class CommentDAO {
                             rating,
                             created_at
                         ) VALUES (?, ?, ?, ?, ?)
-                                """;
+                        """;
+
                 jdbc.update(sql,
                         c.getId(),
                         c.getTitle(),
@@ -96,7 +96,7 @@ public class CommentDAO {
                             comment_id,
                             movie_id
                         ) VALUES (?, ?, ?)
-                                """;
+                        """;
 
                 jdbc.update(sql,
                         UUID.randomUUID().toString(),
@@ -109,5 +109,11 @@ public class CommentDAO {
                 throw e;
             }
         });
+    }
+
+    public void deleteById(String id) {
+        String sql = "DELETE FROM comment WHERE id = ?";
+
+        jdbc.update(sql, id);
     }
 }

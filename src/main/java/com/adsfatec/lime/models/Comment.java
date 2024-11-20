@@ -13,19 +13,24 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String id, String title, String content, Integer rating, String mediaId, MediaType mediaType) {
+    public Comment(
+            String id,
+            String title,
+            String content,
+            Integer rating,
+            Instant createdAt,
+            String mediaId,
+            MediaType mediaType) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.rating = rating;
+        this.createdAt = createdAt;
         this.mediaId = mediaId;
         this.mediaType = mediaType;
     }
 
-    public Comment(String title, String content, Integer rating, String mediaId, MediaType mediaType) {
-        this.title = title;
-        this.content = content;
-        this.rating = rating;
+    public Comment(String mediaId, MediaType mediaType) {
         this.mediaId = mediaId;
         this.mediaType = mediaType;
     }

@@ -33,6 +33,14 @@ public class MoviesController {
         List<Movie> movies = service.getTableData();
         model.addAttribute("movies", movies);
 
+        return "movies/movies";
+    }
+
+    @GetMapping("/list")
+    public String getMoviesList(Model model) {
+        List<Movie> movies = service.getTableData();
+        model.addAttribute("movies", movies);
+
         return "movies/movies :: list";
     }
 
@@ -74,10 +82,10 @@ public class MoviesController {
     public String updateMovie(@PathVariable String movieId, @ModelAttribute Movie movie, Model model) {
         service.update(movieId, movie);
 
-        List<Movie> movies = service.getTableData();
-        model.addAttribute("movies", movies);
+        Movie m = service.getDetails(movieId);
+        model.addAttribute("movie", m);
 
-        return "movies/movies :: table";
+        return "movies/details :: details";
     }
 
     @DeleteMapping("/{movieId}")
@@ -96,21 +104,12 @@ public class MoviesController {
 
         model.addAttribute("movie", movie);
 
-        return "movies/movies :: details";
-    }
-
-    @GetMapping("/{movieId}/comments")
-    public String getComments(@PathVariable String movieId, Model model) {
-        model.addAttribute("movieId", movieId);
-
-        return "movies/movies :: comments";
+        return "movies/details :: details";
     }
 
     @GetMapping("/{movieId}/comments/new")
     public String getCommentsForm(@PathVariable String movieId, Model model) {
-        Comment c = new Comment();
-        c.setMediaType(MediaType.MOVIE);
-        c.setMediaId(movieId);
+        Comment c = new Comment(movieId, MediaType.MOVIE);
 
         model.addAttribute("comment", c);
 

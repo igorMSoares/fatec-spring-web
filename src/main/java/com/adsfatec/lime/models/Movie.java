@@ -11,9 +11,16 @@ public class Movie {
     public Movie() {
     }
 
-    // Atualização
-    public Movie(String id, String title, Integer year, String director, String casting, String genre,
-            String synopsis, String imdb) {
+    // Atualização e Exibição
+    public Movie(
+            String id,
+            String title,
+            Integer year,
+            String director,
+            String casting,
+            String genre,
+            String synopsis,
+            String imdb) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -25,8 +32,14 @@ public class Movie {
     }
 
     // Inserção
-    public Movie(String title, Integer year, String director, String casting, String genre,
-            String synopsis, String imdb) {
+    public Movie(
+            String title,
+            Integer year,
+            String director,
+            String casting,
+            String genre,
+            String synopsis,
+            String imdb) {
         this.title = title;
         this.year = year;
         this.director = director;
@@ -34,6 +47,14 @@ public class Movie {
         this.genre = genre;
         this.synopsis = synopsis;
         this.imdb = imdb;
+    }
+
+    // Listagem parcial
+    public Movie(String id, String title, String genre, Integer year) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.year = year;
     }
 
     public String getId() {

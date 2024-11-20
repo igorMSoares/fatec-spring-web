@@ -28,6 +28,10 @@ public class CommentService {
         return dao.findAllByMovieId(movieId);
     }
 
+    public void delete(String id) {
+        dao.deleteById(id);
+    }
+
     private String generateUUID() {
         return UUID.randomUUID().toString();
     }
