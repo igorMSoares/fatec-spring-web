@@ -15,6 +15,19 @@ public class Book {
     public Book(String id, String title, String author, String publisher, Integer year, String isbn, Integer pagesCount,
             String synopsis) {
         this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.year = year;
+        this.isbn = isbn;
+        this.pagesCount = pagesCount;
+        this.synopsis = synopsis;
+    }
+
+    // Exibição (Tabela)
+    public Book(String id, String title, String author, Integer year) {
+        this.id = id;
+        this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.year = year;

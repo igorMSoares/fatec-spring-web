@@ -10,7 +10,7 @@ import com.adsfatec.lime.daos.BookDAO;
 import com.adsfatec.lime.models.Book;
 
 @Service
-public class BookService {
+public class BooksService {
 
     @Autowired
     BookDAO dao;
@@ -32,13 +32,8 @@ public class BookService {
             return;
         }
 
-        //isso do Imdb não cabe para livros, certo?
-       // if (m.getImdb().length() > 10) {
-       //     m.setImdb("");
-       // }
-
-        m.setId(this.generateUUID());
-        dao.insert(m);
+        b.setId(this.generateUUID());
+        dao.insert(b);
     }
 
     public void update(String id, Book b) {

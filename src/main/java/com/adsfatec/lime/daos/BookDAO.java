@@ -30,14 +30,14 @@ public class BookDAO {
         String sql = "SELECT * FROM book ORDER BY updated_at DESC, created_at DESC;";
 
         return jdbc.query(sql, (rs, i) -> {
-            return new Movie(
+            return new Book(
                     rs.getString("id"),
                     rs.getString("title"),
-                    rs.getInt("year"),
                     rs.getString("author"),
-                    rs.getInt("pagesCount"),
                     rs.getString("publisher"),
+                    rs.getInt("year"),
                     rs.getString("isbn"),
+                    rs.getInt("pagesCount"),
                     rs.getString("synopsis"));
         });
     }
@@ -46,14 +46,14 @@ public class BookDAO {
         String sql = "SELECT * FROM book WHERE id = ?;";
 
         return jdbc.queryForObject(sql, (rs, i) -> {
-            return new Movie(
+            return new Book(
                     rs.getString("id"),
                     rs.getString("title"),
-                    rs.getInt("year"),
                     rs.getString("author"),
-                    rs.getInt("pagesCount"),
                     rs.getString("publisher"),
+                    rs.getInt("year"),
                     rs.getString("isbn"),
+                    rs.getInt("pagesCount"),
                     rs.getString("synopsis"));
         }, id);
     }
@@ -74,7 +74,7 @@ public class BookDAO {
         });
     }
 
-    public void insert(Book m) {
+    public void insert(Book b) {
         String sql = """
                 INSERT INTO book(
                     id,
@@ -93,20 +93,20 @@ public class BookDAO {
         Instant now = Instant.now();
 
         jdbc.update(sql,
-                m.getId(),
-                m.getTitle(),
-                m.getYear(),
-                m.getAuthor(),
-                m.getPagesCount(),
-                m.getPublisher(),
-                m.getIsbn(),
-                m.getSynopsis(),
+                b.getId(),
+                b.getTitle(),
+                b.getYear(),
+                b.getAuthor(),
+                b.getPagesCount(),
+                b.getPublisher(),
+                b.getIsbn(),
+                b.getSynopsis(),
                 Timestamp.from(now),
                 Timestamp.from(now));
     }
 
     public void updateById(String id, Book b) {
-        m.setUpdatedAt(Instant.now());
+        b.setUpdatedAt(Instant.now());
 
         String sql = """
                 UPDATE book SET
@@ -122,14 +122,14 @@ public class BookDAO {
                 """;
 
         jdbc.update(sql,
-                m.getTitle(),
-                m.getYear(),
-                m.getAuthor(),
-                m.getPagesCount(),
-                m.getPublisher(),
-                m.getIsbn(),
-                m.getSynopsis(),
-                Timestamp.from(m.getUpdatedAt()),
+                b.getTitle(),
+                b.getYear(),
+                b.getAuthor(),
+                b.getPagesCount(),
+                b.getPublisher(),
+                b.getIsbn(),
+                b.getSynopsis(),
+                Timestamp.from(b.getUpdatedAt()),
                 id);
     }
 

@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.adsfatec.lime.models.Comment;
 import com.adsfatec.lime.models.Book;
+import com.adsfatec.lime.models.Comment;
 import com.adsfatec.lime.models.enums.MediaType;
-import com.adsfatec.lime.services.BookService;
+import com.adsfatec.lime.services.BooksService;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-    private final BookService service;
+    private final BooksService service;
 
     @Autowired
-    public BookController(BookService service) {
+    public BooksController(BooksService service) {
         this.service = service;
     }
 
@@ -46,7 +46,7 @@ public class BooksController {
 
     @GetMapping("/table")
     public String getBooksTable(Model model) {
-        List<Books> books = service.getTableData();
+        List<Book> books = service.getTableData();
         model.addAttribute("books", books);
 
         return "books/books :: table";

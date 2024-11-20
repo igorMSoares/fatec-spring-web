@@ -16,6 +16,26 @@ CREATE TABLE
 CREATE INDEX IF NOT EXISTS idx_timestamps ON movie (updated_at DESC, created_at DESC);
 
 ------ END MOVIE ------
+
+------ BOOK ------
+CREATE TABLE
+  IF NOT EXISTS book (
+    id VARCHAR(36) PRIMARY KEY,
+    title VARCHAR(50) DEFAULT '',
+    author VARCHAR(50) DEFAULT '',
+    publisher VARCHAR(50) DEFAULT '',
+    year INTEGER,
+    pages INTEGER,
+    isbn VARCHAR(13) DEFAULT '',
+    synopsis TEXT DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+
+CREATE INDEX IF NOT EXISTS idx_timestamps ON movie (updated_at DESC, created_at DESC);
+
+------ END BOOK ------
+
 ------ COMMENT ------
 CREATE TABLE
   IF NOT EXISTS comment (
@@ -36,6 +56,7 @@ CREATE INDEX IF NOT EXISTS idx_created_at ON comment (created_at DESC);
 --     CONSTRAINT fk_comment FOREIGN KEY (comment_id) REFERENCES comment(id) ON DELETE CASCADE,
 --     CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE,
 --   );
+
 CREATE TABLE
   IF NOT EXISTS movie_comment (
     id VARCHAR(36) PRIMARY KEY,
