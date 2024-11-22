@@ -35,9 +35,11 @@ public class CommentsController {
         if (mediaType == MediaType.MOVIE) {
             List<Comment> comments = service.listAllByMovieId(mediaId);
             model.addAttribute("comments", comments);
+            model.addAttribute("mediaType", MediaType.MOVIE);
         } else if (mediaType == MediaType.BOOK) {
             List<Comment> comments = service.listAllByBookId(mediaId);
             model.addAttribute("comments", comments);
+            model.addAttribute("mediaType", MediaType.BOOK);
         }
 
         model.addAttribute("mediaId", mediaId);
@@ -58,10 +60,14 @@ public class CommentsController {
         if (comment.getMediaType() == MediaType.MOVIE) {
             List<Comment> comments = service.listAllByMovieId(mediaId);
             model.addAttribute("comments", comments);
+            model.addAttribute("mediaType", MediaType.MOVIE);
         } else if (comment.getMediaType() == MediaType.BOOK) {
             List<Comment> comments = service.listAllByBookId(mediaId);
             model.addAttribute("comments", comments);
+            model.addAttribute("mediaType", MediaType.BOOK);
         }
+
+        model.addAttribute("mediaId", mediaId);
 
         return "comments/comments :: list";
     }
@@ -77,10 +83,14 @@ public class CommentsController {
         if (mediaType == MediaType.MOVIE) {
             List<Comment> comments = service.listAllByMovieId(mediaId);
             model.addAttribute("comments", comments);
+            model.addAttribute("mediaType", MediaType.MOVIE);
         } else if (mediaType == MediaType.BOOK) {
             List<Comment> comments = service.listAllByBookId(mediaId);
             model.addAttribute("comments", comments);
+            model.addAttribute("mediaType", MediaType.BOOK);
         }
+
+        model.addAttribute("mediaId", mediaId);
 
         return "comments/comments :: list";
     }
