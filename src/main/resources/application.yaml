@@ -11,13 +11,12 @@ spring:
   resources:
     static-locations: file:src/main/resources/static/
     cache:
-      # DEV ENVIRONMENT ONLY
       period: 0
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/lime
-    username: # username
-    password: # password
+    url: jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWD}
     driver-class-name: org.postgresql.Driver
     initialize: true
 
